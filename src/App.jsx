@@ -1,13 +1,11 @@
-import Header from './Header';
-import Footer from './Footer';
-import Explorer from './Explorer';
+
 
 function App() {
   return (
     <div className="App">
-      <Header />
+      {/* <Header />
       <Explorer />
-      <Footer />
+      <Footer /> */}
     </div>
   );
 }
