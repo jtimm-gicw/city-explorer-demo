@@ -6,10 +6,10 @@
 
 ## 🚀 Project Setup
 
-- [ ] Create a GitHub repository named `city-explorer`
-- [ ] Do NOT initialize the repo with files on GitHub
-- [ ] Create a React app locally named `city-explorer`
-- [ ] Verify your project structure includes:
+- [ X ] Create a GitHub repository named `city-explorer`
+- [ X ] Do NOT initialize the repo with files on GitHub
+- [ X ] Create a React app locally named `city-explorer`
+- [ X ] Verify your project structure includes:
 
   ```txt
   city-explorer
@@ -23,8 +23,8 @@
         |__App.js
   ```
 
-- [ ] Connect local repo to GitHub repo
-- [ ] Push initial project setup to GitHub
+- [ X ] Connect local repo to GitHub repo
+- [ X ] Push initial project setup to GitHub
 
 ---
 
