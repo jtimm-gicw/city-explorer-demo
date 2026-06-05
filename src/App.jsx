@@ -1,47 +1,55 @@
 import { useState } from 'react';
-import axios from 'axios';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import SearchBar from './components/SearchBar';
+import Weather from './components/Weather';
+import Movies from './components/Movies';
+import { getWeather, getMovies } from './api/api';
+import './App.css';
 
-const API_KEY = import.meta.env.VITE_API_KEY;
+export default function App() {
+  const [location, setLocation] = useState(null);
+  const [weather, setWeather] = useState([]);
+  const [movies, setMovies] = useState([]);
+  const [error, setError] = useState(null);
 
-function App() {
+  async function handleSearch(city, lat, lon) {
+    try {
+      setError(null);
 
-  const [searchQuery, setSearchQuery] = useState('');
-  const [location, setLocation] = useState({});
+      // Save basic location info
+      setLocation({ city, lat, lon });
 
-  async function getLocation() {
-
-    const API = `https://us1.locationiq.com/v1/search.php?key=${API_KEY}&q=${searchQuery}&format=json`;
-
-    const response = await axios.get(API);
-
-    setLocation(response.data[0]);
+      // WEATHER REQUEST
+      const weatherData = await getWeather(lat, lon);
+      setWeather(weatherData);
+      // Weather Check
+      console.log("weatherData:", weatherData);
+      console.log("isArray:", Array.isArray(weatherData));
+      // MOVIES REQUEST
+      const movieData = await getMovies(city);
+      setMovies(movieData);
+      
+    } catch (err) {
+      console.error(err);
+      setError('Something went wrong fetching data.');
+    }
   }
 
   return (
-    <div className="container mt-5">
+    <div className="app-container">
 
-      <input
-        className="form-control"
-        onChange={(e) => setSearchQuery(e.target.value)}
-        placeholder="Search for a city"
-      />
+      <h1>🌆 City Explorer</h1>
 
-      <button
-        className="btn btn-primary mt-3"
-        onClick={getLocation}
-      >
-        Explore!
-      </button>
+      <SearchBar onSearch={handleSearch} />
 
-      {location.place_id && (
-        <div className="card p-3 mt-3">
+      {error && <p className="error">{error}</p>}
 
-          <h2>{location.display_name}</h2>
+      {location && (
+        <div className="results">
 
-          <p>Latitude: {location.lat}</p>
+          <h2>📍 Results for {location.city}</h2>
 
-          <p>Longitude: {location.lon}</p>
+          <Weather weather={weather} />
+          <Movies movies={movies} />
 
         </div>
       )}
@@ -49,5 +57,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
